@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Liferay6 supports CAS but in limited way an without support for CAS ClearPass or Proxy Tickets.
+Liferay6 supports CAS out-of-the-box but without support for CAS ClearPass or Proxy Tickets.
 This package fixes that.
 
 ## Dependencies
