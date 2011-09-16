@@ -18,20 +18,16 @@ This package fixes that.
 3. Start up liferay
 4. cd cas3-ext; ant clean deploy
 5. Login into liferay and using the Control Panel and makes these changes:
-
-`liferay contro planel > settings > authentication > General:
-* How do users authenticate? change to By Screen Name
-
-liferay contro planel > settings > authentication > CAS:
-* enabled  checked
-* Login URL: https://cas.example.org:8443/cas/login
-* Logout URL: https://cas.example.org:8443/cas/logout
-* Server Name: portal.example.org:8443 
-* Server URL: https://cas.example.org:8443/cas 
-`
-
+	> liferay contro planel > settings > authentication > General:
+	> * How do users authenticate? change to By Screen Name
+	> 
+	> liferay contro planel > settings > authentication > CAS:
+	> * enabled  checked
+	> * Login URL: https://cas.example.org:8443/cas/login
+	> * Logout URL: https://cas.example.org:8443/cas/logout
+	> * Server Name: portal.example.org:8443 
+	> * Server URL: https://cas.example.org:8443/cas 
 6. edit ROOT/WEB-INF/web.xml and comment out the stock SSO filters
-
 7. Restart Liferay
 
 Clicking on login should take you to the CAS login screen.
