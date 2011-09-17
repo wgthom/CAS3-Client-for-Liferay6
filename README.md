@@ -21,7 +21,7 @@ This package fixes that.
 	> liferay contro planel > settings > authentication > General:
 	> * How do users authenticate? change to By Screen Name
 	> 
-	> liferay contro planel > settings > authentication > CAS:
+	> liferay control planel > settings > authentication > CAS:
 	> * enabled  checked
 	> * Login URL: https://cas.example.org:8443/cas/login
 	> * Logout URL: https://cas.example.org:8443/cas/logout
