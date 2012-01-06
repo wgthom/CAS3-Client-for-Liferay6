@@ -202,6 +202,10 @@ public class PropsValues {
 	public static final String CAS_SERVICE_URL = PropsUtil.get(PropsKeys.CAS_SERVICE_URL);
 
     public static final String CAS_VALIDATE_URL = PropsUtil.get(PropsKeys.CAS_VALIDATE_URL);
+    
+    public static final String CAS_PROXY_CALLBACK_URL = PropsUtil.get(PropsKeys.CAS_PROXY_CALLBACK_URL);
+    
+    public static final String CAS_PROXY_RECEPTOR_URL = PropsUtil.get(PropsKeys.CAS_PROXY_RECEPTOR_URL);
 
     public static final String CAS_CLEARPASS_URL = PropsUtil.get(PropsKeys.CAS_CLEARPASS_URL);
 

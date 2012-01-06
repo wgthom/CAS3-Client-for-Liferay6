@@ -15,21 +15,7 @@
 package com.liferay.portal.security.auth;
 
 import java.net.URLEncoder;
-
-import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.util.*;
-import com.liferay.portal.model.CompanyConstants;
-import com.liferay.portal.model.User;
-import com.liferay.portal.security.ldap.LDAPSettingsUtil;
-import com.liferay.portal.security.ldap.PortalLDAPImporterUtil;
-import com.liferay.portal.security.ldap.PortalLDAPUtil;
-import com.liferay.portal.service.UserLocalServiceUtil;
-import com.liferay.portal.servlet.filters.sso.cas.CASFilter;
-import com.liferay.portal.util.PortalUtil;
-import com.liferay.portal.util.PrefsPropsUtil;
-import com.liferay.portal.util.PropsValues;
+import java.util.Properties;
 
 import javax.naming.Binding;
 import javax.naming.NamingEnumeration;
@@ -40,12 +26,29 @@ import javax.naming.ldap.LdapContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.Properties;
 
 import org.jasig.cas.client.util.CommonUtils;
 import org.jasig.cas.client.util.XmlUtils;
 import org.jasig.cas.client.validation.Assertion;
-import org.jasig.cas.client.validation.Cas20ProxyReceivingTicketValidationFilter;
+
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.StringPool;
+import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.model.CompanyConstants;
+import com.liferay.portal.model.User;
+import com.liferay.portal.security.ldap.LDAPSettingsUtil;
+import com.liferay.portal.security.ldap.PortalLDAPImporterUtil;
+import com.liferay.portal.security.ldap.PortalLDAPUtil;
+import com.liferay.portal.service.UserLocalServiceUtil;
+import com.liferay.portal.util.PortalUtil;
+import com.liferay.portal.util.PrefsPropsUtil;
+import com.liferay.portal.util.PropsValues;
 
 /**
  * @author Brian Wing Shun Chan                 `
@@ -53,6 +56,7 @@ import org.jasig.cas.client.validation.Cas20ProxyReceivingTicketValidationFilter
  * @author Wesley Gong
  * @author Daeyoung Song
  * @author William G. Thompson, Jr.
+ * @author christophe Mourette
  */
 public class CAS3AutoLogin implements AutoLogin {
 
@@ -82,9 +86,12 @@ public class CAS3AutoLogin implements AutoLogin {
             if (session.getAttribute(CONST_CAS_ASSERTION) != null) {
                 assertion = (Assertion) session.getAttribute(CONST_CAS_ASSERTION);
                 login = assertion.getPrincipal().getName();
+                session.setAttribute("LIFERAY_SHARED_CAS_ASSERTION", assertion);
+                
             }
 
 			if (Validator.isNull(login)) {
+				_log.debug("login is null");
 				return credentials;
 			}
 
@@ -145,15 +152,23 @@ public class CAS3AutoLogin implements AutoLogin {
                 credentials[1] = user.getPassword();
                 credentials[2] = Boolean.TRUE.toString();
             }
-
+            _log.debug("return credentials="+credentials[0]+".."+credentials[1]+".."+credentials[2]+"..");
 			return credentials;
 		}
 		catch (Exception e) {
 			_log.error(e, e);
 		}
-
 		return credentials;
 	}
+	
+//	private static void saveUserInfos(final HttpServletRequest request, final User user) throws PortalException, SystemException {
+//        final HttpSession session = request.getSession();
+//        if (user == null) {
+//            session.setAttribute(WebKeys.CURRENT_SEXTANT_USER, null);
+//        } else {            
+//            session.setAttribute(WebKeys.CURRENT_SEXTANT_USER, user.getLogin());
+//        }
+//    }
 
 
     private static String getClearTextPassword(Assertion assertion, Long companyId) {

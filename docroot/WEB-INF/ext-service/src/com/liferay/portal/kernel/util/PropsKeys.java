@@ -283,6 +283,10 @@ public interface PropsKeys {
 	public static final String CAS_SERVICE_URL = "cas.service.url";
 
     public static final String CAS_VALIDATE_URL = "cas.validate.url";
+    
+    public static final String CAS_PROXY_CALLBACK_URL = "cas.proxy.callback.url";
+    
+    public static final String CAS_PROXY_RECEPTOR_URL = "cas.proxy.receptor.url";
 
     public static final String CAS_CLEARPASS_URL = "cas.clearpass.url";
 
